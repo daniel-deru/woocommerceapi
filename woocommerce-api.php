@@ -44,6 +44,15 @@ $woocommerce = new Client(
     return json_encode($data);
  };
 
+$addProduct = function($data) use ($woocommerce){
+
+    if($data['name'] && $data['images'][0]['src']){
+        $request = $woocommerce->post('products', $data);
+
+        return json_encode(($request));
+    }
+
+};
 
  ?>
 

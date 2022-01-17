@@ -16,6 +16,28 @@ else {
 }
 
 ?>
+
+<?php
+    if(isset($_POST['name']) && isset($_FILES['image'])){
+        // echo "<pre>";
+        // print_r($_POST);
+        // echo "</pre>";
+        // echo "<pre>";
+        // print_r($_FILES);
+        // echo "</pre>";
+        // echo "<pre>";
+        // print_r($_FILES['image']['tmp_name']);
+        // echo "</pre>";
+        // echo "<pre>";
+        // print_r($_FILES['image']['name']);
+        // echo "</pre>";
+        
+        move_uploaded_file($_FILES['image']['tmp_name'], "./images/".$_FILES['image']['name']);
+
+        // $saveProduct = json_decode($addproduct(), true);
+    }
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,26 +52,26 @@ else {
     <header>
         <a href="#">Go back to products</a>
     </header>
-    <form action="./addproduct.php" method="post">
+    <form enctype="multipart/form-data" action="./addproduct.php" method="post">
         <div id="title-price">
             <span>
-                <label for="name">Name</label>
-                <input type="text" name="name">
+                <label for="name" >Name</label>
+                <input type="text" name="name" id="name" required>
             </span>
             <span>
-                <label for="regular_price">Regular Price</label>
-                <input type="text" name="regular_price">
+                <label for="regular-price">Regular Price</label>
+                <input type="text" name="regular-price" id="regular-price">
             </span>
             <span>
-                <label for="sale_price">Sale Price</label>
-                <input type="text" name="sale_price">
+                <label for="sale-price">Sale Price</label>
+                <input type="text" name="sale-price" id="sale-price">
             </span>
         </div>
 
         <div id="product-settings">
             <span >
-                <label for="product_type" ></label>
-                <select name="product_type" id="">
+                <label for="product-type" ></label>
+                <select name="product-type" id="product-type">
                     <option value="" selected disabled>Product Type</option>
                     <option value="simple_product">Simple Product</option>
                     <option value="grouped_product">Grouped Product</option>
@@ -59,30 +81,32 @@ else {
             </span>
             <span >
                 <label for="virtual" class="inline">Virtual</label>
-                <input type="checkbox" name="virtual">
+                <input type="checkbox" name="virtual" id="virtual">
             </span>
             <span>
                 <label for="downloadable" class="inline">Downloadable</label>
-                <input type="checkbox" name="downloadable">
+                <input type="checkbox" name="downloadable" id="downloadable">
             </span>
         </div>
 
         <div id="product-image">
         <label class="custom-file-upload">
-            <input type="file"/>
+            <input type="file" id="image" name="image" required/>
             Custom Upload
         </label>
-            <div id="image-preview"></div>
+            <div id="image-preview">
+                <img src="" alt="" id="img">
+            </div>
         </div>
 
         <div id="product-description">
             <label for="description">Description</label>
-            <textarea name="description" id="" cols="30" rows="10"></textarea>
+            <textarea name="description" cols="30" rows="10" id="description"></textarea>
         </div>
 
         <div id="product-short-description">
             <label for="short-description"> Short Description</label>
-            <textarea name="short-description" id="" cols="30" rows="10"></textarea>
+            <textarea name="short-description" id="short-description" cols="30" rows="10"></textarea>
         </div>
 
         <div id="categories-tags">
@@ -102,7 +126,7 @@ else {
                 <div id="tag-form">
                     <label for="tags">Add Tags</label>
                     <span>
-                        <input type="text" name="tags" id="tag-input">
+                        <input type="text" id="tag-input">
                         <button type="button" id="tag-button">Add</button>
                     </span>
                 </div>
@@ -112,12 +136,16 @@ else {
 
         <div id="sku">
             <label for="sku">SKU</label>
-            <input type="text" name="sku">
+            <input type="text" name="sku" id="sku-input">
         </div>
 
         <div id="btn-save">
-            <input type="submit" value="Save">
+            <input type="submit" id="save-btn" value="Save">
         </div>
+        <input type="hidden" name="categories" id="hidden-categories">
+        <input type="hidden" name="tags" id="hidden-tags">
     </form>
+    <div id="errors"></div>
 </body>
 </html>
+
