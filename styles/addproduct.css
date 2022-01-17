@@ -1,5 +1,5 @@
 :root {
-    --main-green: rgba(4,65,28,1);
+    --main-green: #04411c;
     --main-light-green: rgba(53,205,22,1);
     --gradient: linear-gradient(90deg, rgba(53,205,22,1) 0%, rgba(4,65,28,1) 100%);
 }
@@ -35,19 +35,32 @@ form {
     margin-top: 2rem;
 }
 
+label {
+    color: black;
+    margin-bottom: 5px;
+}
+
 form label:not(.inline) {
     display: block;
 }
+
 .inline {
     display: inline;
 }
 
-
+form button, form input[type="submit"] {
+    background: var(--gradient);
+    border: none;
+    color: white;
+    border-radius: 5px;
+}
 
 form input {
     font-size: 1.2em;
     font-family: sans-serif;
     padding: 5px 8px;
+    border-radius: 5px;
+    border: 2px solid var(--main-green);
 }
 
 form button {
@@ -58,16 +71,21 @@ form button {
 
 form textarea {
     width: 100%;
+    border-radius: 5px;
+    border: 2px solid var(--main-green);
 }
 
 form select {
     font-size: 1.2em;
     font-family: sans-serif;
     padding: 5px 8px;
+    border-radius: 5px;
+    border: 2px solid var(--main-green);
+    color: var(--main-green);
 
 }
 
-form div {
+form > div {
     margin-top: 2rem;
 }
 
@@ -97,4 +115,33 @@ form > div:nth-child(6) {
     display: block;
     margin: auto;
     margin-bottom: 5rem;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload {
+    border-radius: 5px;
+    display: block;
+    padding: 6px 12px;
+    cursor: pointer;
+    max-width: 10rem;
+    text-align: center;
+    background: var(--gradient);
+    color: white;
+}
+
+ul {
+    list-style-type: none;
+    color: var(--main-green);
+}
+
+ul li {
+    background: var(--gradient);
+    border-radius: 5px;
+    margin: 10px 0px;
+    width: fit-content;
+    padding: 5px;
+    color: white;
 }

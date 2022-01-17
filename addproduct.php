@@ -1,11 +1,13 @@
 <?php
-
+require __DIR__ . "/woocommerce-api.php";
 if(isset($_SERVER['HTTP_REFERER'])){
     $previous_page = $_SERVER['HTTP_REFERER'];
-    $from_login = preg_match("/products.php$/", $previous_page);
+    $from_products = preg_match("/products.php/", $previous_page);
 
-    if($from_login){
-        // Do something here
+    if($from_products){
+        $categoriesData = json_decode($listCategories(), true);
+        $categories = $categoriesData['data'];
+
     }
 }
 else {
@@ -21,6 +23,7 @@ else {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./styles/addproduct.css">
+    <script src="./js/addproduct.js" defer></script>
     <title>Add Product</title>
 </head>
 <body>
@@ -65,7 +68,10 @@ else {
         </div>
 
         <div id="product-image">
-            <input type="file">
+        <label class="custom-file-upload">
+            <input type="file"/>
+            Custom Upload
+        </label>
             <div id="image-preview"></div>
         </div>
 
@@ -82,19 +88,25 @@ else {
         <div id="categories-tags">
             <div id="choose-category">
                 <label for="category">Choose Category</label>
-                
+                <select name="category" id="category">
+                    <option value="" disabled selected>Select Category</option>
+                    <?php
+                        foreach($categories as $category){?>
+                            <option value="<?= $category['name']?>"><?= $category['name']?></option>
+                       <?php }
+                    ?>
+                </select>
+                <ul id="category-items"></ul>
             </div>
             <div id="tag-container">
                 <div id="tag-form">
                     <label for="tags">Add Tags</label>
                     <span>
-                        <input type="text" name="tags">
+                        <input type="text" name="tags" id="tag-input">
                         <button type="button" id="tag-button">Add</button>
                     </span>
                 </div>
-                <div id="tag-display">
-
-                </div>
+                <ul id="tag-items"></ul>
             </div>
         </div>
 
