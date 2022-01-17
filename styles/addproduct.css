@@ -1,0 +1,100 @@
+:root {
+    --main-green: rgba(4,65,28,1);
+    --main-light-green: rgba(53,205,22,1);
+    --gradient: linear-gradient(90deg, rgba(53,205,22,1) 0%, rgba(4,65,28,1) 100%);
+}
+
+* {
+    padding: 0;
+    margin: 0;
+}
+
+header {
+    height: 15vh;
+    background: var(--gradient);
+    display: flex;
+    align-items: center;
+}
+
+header a {
+    color: white;
+    text-decoration: none;
+    font-family: sans-serif;
+    font-size: 1.2em;
+    padding: 1em;
+    border: 2px solid white;
+    border-radius: 5px;
+    margin-left: 1em;
+}
+
+form {
+    max-width: 80%;
+    margin: auto;
+    font-size: 1.2em;
+    font-family: sans-serif;
+    margin-top: 2rem;
+}
+
+form label:not(.inline) {
+    display: block;
+}
+.inline {
+    display: inline;
+}
+
+
+
+form input {
+    font-size: 1.2em;
+    font-family: sans-serif;
+    padding: 5px 8px;
+}
+
+form button {
+    font-size: 1.2em;
+    font-family: sans-serif;
+    padding: 5px 15px;
+}
+
+form textarea {
+    width: 100%;
+}
+
+form select {
+    font-size: 1.2em;
+    font-family: sans-serif;
+    padding: 5px 8px;
+
+}
+
+form div {
+    margin-top: 2rem;
+}
+
+/* This is for the first row of the name, regular price and sale price */
+form > div:nth-child(1) {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* This is for the second row that has the product type, virual and downloadable fields */
+form > div:nth-child(2) {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* This is for the categories and the tags fields */
+form > div:nth-child(6) {
+    display: flex;
+    justify-content: space-between;
+}
+
+#sku input {
+    width: 100%;
+}
+
+#btn-save input{
+    display: block;
+    margin: auto;
+    margin-bottom: 5rem;
+}
