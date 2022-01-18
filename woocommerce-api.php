@@ -54,6 +54,20 @@ $addProduct = function($data) use ($woocommerce){
 
 };
 
+$getProduct = function($id) use ($woocommerce){
+    if($id){
+        $data = $woocommerce->get('products/' . $id);
+        return json_encode($data);
+    }
+};
+
+$updateProduct = function($id, $data) use ($woocommerce){
+    if($id && $data){
+        $data = $woocommerce->put('products/' . $id, $data);
+        return json_encode($data);
+    }
+}
+
  ?>
 
 

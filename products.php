@@ -81,7 +81,7 @@ else {
                                 <span class="SKU"><b>SKU: </b><?php echo displayData($product['sku'])?></span>
                                 <span class="Categories"><b>Categories: </b><?php echo $product['categories'][0]['name']?></span>
                             </div>
-                            <a href="#" class="edit-product">Edit Product</a>
+                            <a href="editproduct.php?id=<?= $product['id']?>" class="edit-product">Edit Product</a>
                         </div>
                    <?php }
                 }

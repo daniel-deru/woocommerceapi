@@ -20,6 +20,8 @@ saveBtn.addEventListener("click", () => saveClicked())
 const imageUpload = document.getElementById("image")
 imageUpload.addEventListener("change", (event) => showImage(event))
 
+addCategoryListener()
+
 function addCategories(event){
     
     let name = (/[a-z]*/gi).exec(event.target.value)[0]
@@ -113,18 +115,6 @@ function showImage(event){
 }
 
 function saveClicked(){
-    const name = document.getElementById("name").value
-    const regularPrice = document.getElementById("regular-price").value
-    const salePrice = document.getElementById("sale-price").value
-    const productType = document.getElementById("product-type").value
-    const virtual = document.getElementById("virtual").checked
-    const downloadable = document.getElementById("downloadable").checked
-    const image = document.getElementById("img")
-    const description = document.getElementById("description").value
-    const shortDescription = document.getElementById("short-description").value
-    const sku = document.getElementById("sku-input").value
-    const categories = Array.from(document.getElementById("category-items").children).map(category => category.innerText).join("%")
-    const tags = Array.from(document.getElementById("tag-items").children).map(tag => tag.innerText).join("%")
 
     const errors = document.getElementById("errors")
 
@@ -137,4 +127,28 @@ function saveClicked(){
         error.appendChild(document.createTextNode("Please set an image."))
         errors.appendChild(error)
     }
+}
+
+function addCategoryListener(){
+    let categories = categoryList.children
+    console.log("hello")
+    for(let i = 0; i < categories.length; i++){
+        categories[i].addEventListener('click', (event) => deleteCategories(event))
+        categoryItems.push(categories[i].innerText)
+        categoryIDs.push(categories.id)
+    }
+
+
+}
+
+
+function addTagListener(){
+    let tags = tagList.children
+    console.log("hello")
+    for(let i = 0; i < tags.length; i++){
+        tags[i].addEventListener('click', (event) => deleteTags(event))
+        tagsItems.push(tags[i].innerText)
+    }
+
+
 }
