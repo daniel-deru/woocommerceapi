@@ -1,19 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- <meta http-equiv=Content-Security-Policy  -->
+    <!-- content="default-src 'self'; script-src 'self' 'unsafe-inline'; img-src 'self' https://*; base-uri 'self'; frame-ancestors 'none';" /> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/addproduct.css">
+    <script src="./js/editproduct.js" defer></script>
+    <title>Edit Product</title>
+</head>
+
+
 <?php
 require __DIR__ . "/woocommerce-api.php";
 if(isset($_SERVER['HTTP_REFERER'])){
     $previous_page = $_SERVER['HTTP_REFERER'];
     $from_products = preg_match("/products.php.*/", $previous_page);
+    $from_editProducts = preg_match("/editproduct.php.*/", $previous_page);
 
-    if($from_products){
+    if($from_products || $from_editProducts){
         $categoriesData = json_decode($listCategories(), true);
         $categories = $categoriesData['data'];
         if(isset($_GET['id'])){
             $id = $_GET['id'];
             $product = json_decode($getProduct($id), true);
 
-            echo "<pre>";
-            print_r($product);
-            echo "</pre>";
+            // echo "<pre>";
+            // print_r($product);
+            // echo "</pre>";
         }
 
 
@@ -26,21 +41,111 @@ else {
 
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./styles/addproduct.css">
-    <script src="./js/editproduct.js" defer></script>
-    <title>Edit Product</title>
-</head>
+<?php
+    if(isset($_POST['name'])){
+        $data = array();
+        if($_POST['categories']){
+            $categoriesArray = [];
+            $categoriesSelected = explode("%", $_POST['categories']);
+            for($i = 0; $i < count($categoriesSelected); $i++){
+                $categoriesArray[$i] = array(
+                    'id' => $categoriesSelected[$i]
+                );
+            }
+        }
+
+        if($_POST['tags']){
+            $tagsArray = [];
+            $tags = explode("%", $_POST['tags']);
+            for($i = 0; $i < count($tags); $i++){
+                $tagsArray[$i] = array(
+                    'name' => $tags[$i]
+                );
+            }
+        }
+
+        if(isset($_POST['downloadable'])){
+            $downloadable = true;
+        }
+        else {
+            $downloadable = false;
+        }
+
+        if(isset($_POST['virtual'])){
+            $virtual = true;
+        }
+        else {
+            $virtual = false;
+        }
+
+        if($product['name'] != $_POST['name']){
+            $data['name'] = $_POST['name'];
+        }
+        if($product['regular_price'] != $_POST["regular-price"]){
+            $data['regular_price'] = $_POST['regular-price'];
+        }
+        if($product['sale_price'] != $_POST['sale-price']){
+            $data['sale_price'] = $_POST['sale-price'];
+        }
+        if(isset($_POST['type']) && $_POST['type'] != $product['type']){
+            $data['type'] = $_POST['type'];
+        }
+
+        if($downloadable != $product['downloadable']){
+            $data['downloadable'] = $downloadable;
+        }
+
+        if($virtual != $product['virtual']){
+            $data['virtual'] = $virtual;
+        }
+
+        if($_FILES['image']["name"]){
+            move_uploaded_file($_FILES['image']['tmp_name'], "./images/".$_FILES['image']['name']);
+            $image = "http://" . $_SERVER['HTTP_HOST'] . preg_replace("/addproduct.php.*/", "", $_SERVER['REQUEST_URI'], ) . "images/" . $_FILES['image']['name'];
+            $data['images'] = array(
+                array(
+                    'src' => $image
+                )
+                );
+        }
+
+        if(strip_tags($_POST['description']) != strip_tags($product['description'])){
+            $data['description'] = $_POST['description'];
+        }
+
+        if(strip_tags($_POST['short-description']) != strip_tags($product['short_description'])){
+            $data['short_description'] = $_POST['short-description'];
+        }
+        if($_POST['sku'] != $product['sku']){
+            $data['sku'] = $_POST['sku'];
+        }
+
+
+
+        
+
+
+        // $saveProduct = json_decode($addProduct($data), true);
+        echo "<pre>";
+        print_r($data);
+        echo "</pre>";
+
+        // $imageFolder = "./images";
+
+        // $files = glob($imageFolder . "/*");
+        // foreach($files as $file){
+        //     if(is_file($file)){
+        //         unlink($file);
+        //     }
+        // }
+    }
+
+?>
 <body>
     <header>
         <a href="#">Go back to products</a>
     </header>
-    <form enctype="multipart/form-data" action="./addproduct.php" method="post">
+    <form enctype="multipart/form-data" action="./editproduct.php?id=<?= $product['id']?>" method="post">
         <div id="title-price">
             <span>
                 <label for="name" >Name</label>
@@ -79,7 +184,7 @@ else {
 
         <div id="product-image">
         <label class="custom-file-upload">
-            <input type="file" id="image" name="image" required/>
+            <input type="file" id="image" name="image"/>
             Custom Upload
         </label>
             <div id="image-preview">
@@ -89,12 +194,12 @@ else {
 
         <div id="product-description">
             <label for="description">Description</label>
-            <textarea name="description" cols="30" rows="10" id="description" value="<?= $product['description']?>"></textarea>
+            <textarea name="description" cols="30" rows="10" id="description" value="<?= $product['description']?>"><?php echo strip_tags($product['description'])?></textarea>
         </div>
 
         <div id="product-short-description">
             <label for="short-description"> Short Description</label>
-            <textarea name="short-description" id="short-description" cols="30" rows="10" value="<?= $product['short_description']?>"></textarea>
+            <textarea name="short-description" id="short-description" cols="30" rows="10" value="<?= $product['short_description']?>"><?php echo strip_tags($product['short_description'])?></textarea>
         </div>
 
         <div id="categories-tags">
@@ -159,5 +264,24 @@ else {
         <input type="hidden" name="tags" id="hidden-tags">
     </form>
     <div id="errors"></div>
+
 </body>
+
+<?php
+    if($product['virtual']){?>
+        <script>
+            let virtual = document.getElementById("virtual")
+            virtual.checked = true
+        </script>
+    <?php }
+    if($product['downloadable']){?>
+        <script>
+            let downloadable = document.getElementById("downloadable")
+            downloadable.checked = true
+        </script>
+   <?php }
+
+
+?>
+
 </html>

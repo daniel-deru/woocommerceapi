@@ -21,6 +21,7 @@ const imageUpload = document.getElementById("image")
 imageUpload.addEventListener("change", (event) => showImage(event))
 
 addCategoryListener()
+addTagListener()
 
 function addCategories(event){
     
@@ -131,24 +132,23 @@ function saveClicked(){
 
 function addCategoryListener(){
     let categories = categoryList.children
-    console.log("hello")
     for(let i = 0; i < categories.length; i++){
+        
         categories[i].addEventListener('click', (event) => deleteCategories(event))
         categoryItems.push(categories[i].innerText)
-        categoryIDs.push(categories.id)
+        categoryIDs.push(categories[i].id)
     }
-
+    displayCategories()
 
 }
 
 
 function addTagListener(){
     let tags = tagList.children
-    console.log("hello")
     for(let i = 0; i < tags.length; i++){
         tags[i].addEventListener('click', (event) => deleteTags(event))
         tagsItems.push(tags[i].innerText)
     }
 
-
+    displayTags()
 }

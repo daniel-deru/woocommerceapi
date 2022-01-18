@@ -73,6 +73,10 @@ form textarea {
     width: 100%;
     border-radius: 5px;
     border: 2px solid var(--main-green);
+    font-size: 1.2em;
+    font-family: sans-serif;
+    padding: 5px 15px;
+    outline: var(--main-light-green);
 }
 
 form select {
