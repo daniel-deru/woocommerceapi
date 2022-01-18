@@ -3,8 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!-- <meta http-equiv=Content-Security-Policy  -->
-    <!-- content="default-src 'self'; script-src 'self' 'unsafe-inline'; img-src 'self' https://*; base-uri 'self'; frame-ancestors 'none';" /> -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./styles/addproduct.css">
     <script src="./js/editproduct.js" defer></script>
@@ -26,9 +24,6 @@ if(isset($_SERVER['HTTP_REFERER'])){
             $id = $_GET['id'];
             $product = json_decode($getProduct($id), true);
 
-            // echo "<pre>";
-            // print_r($product);
-            // echo "</pre>";
         }
 
 
@@ -119,25 +114,25 @@ else {
         if($_POST['sku'] != $product['sku']){
             $data['sku'] = $_POST['sku'];
         }
+        $data['categories'] = $categoriesArray;
+        $data['tags'] = $tagsArray;
 
 
 
         
 
 
-        // $saveProduct = json_decode($addProduct($data), true);
-        echo "<pre>";
-        print_r($data);
-        echo "</pre>";
+        $editProduct = json_decode($updateProduct($id, $data), true);
 
-        // $imageFolder = "./images";
 
-        // $files = glob($imageFolder . "/*");
-        // foreach($files as $file){
-        //     if(is_file($file)){
-        //         unlink($file);
-        //     }
-        // }
+        $imageFolder = "./images";
+
+        $files = glob($imageFolder . "/*");
+        foreach($files as $file){
+            if(is_file($file)){
+                unlink($file);
+            }
+        }
     }
 
 ?>
