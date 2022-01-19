@@ -12,6 +12,11 @@
 
 <?php
 require __DIR__ . "/woocommerce-api.php";
+if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')
+$link = "https";
+else $link = "http";
+
+$link .= "://" . $_SERVER['HTTP_HOST'];
 if(isset($_SERVER['HTTP_REFERER'])){
     $previous_page = $_SERVER['HTTP_REFERER'];
     $from_products = preg_match("/products.php.*/", $previous_page);
@@ -30,7 +35,7 @@ if(isset($_SERVER['HTTP_REFERER'])){
     }
 }
 else {
-    header("Location: http://localhost/product/secret/login.php");
+    header("Location: " . $link . "/product/secret/login.php");
     exit;
 }
 
@@ -124,7 +129,6 @@ else {
 
         $editProduct = json_decode($updateProduct($id, $data), true);
 
-
         $imageFolder = "./images";
 
         $files = glob($imageFolder . "/*");
@@ -138,7 +142,7 @@ else {
 ?>
 <body>
     <header>
-        <a href="#">Go back to products</a>
+        <a href="<?= $_SERVER['HTTP_REFERER']?>">Go back to products</a>
     </header>
     <form enctype="multipart/form-data" action="./editproduct.php?id=<?= $product['id']?>" method="post">
         <div id="title-price">

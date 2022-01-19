@@ -27,6 +27,7 @@ if(isset($_POST['login'])){
         $name = $_POST['name'];
         $password = $_POST['password'];
         if($name == "Daniel" && $password == "Daniel"){
+            // Remove the product from the url
             header("Location:" . $link . "/product/secret/products.php?page=1");
             exit;
         }
@@ -41,7 +42,7 @@ if(isset($_POST['login'])){
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="http://localhost/product/secret/styles/login.css">
+    <link rel="stylesheet" href="./styles/login.css">
     <title>Login</title>
 </head>
 <body>

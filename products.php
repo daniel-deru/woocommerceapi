@@ -9,12 +9,21 @@ function displayData($data){
     }
 }
 
+if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')
+$link = "https";
+else $link = "http";
+
+$link .= "://" . $_SERVER['HTTP_HOST'];
+
+
 global $categories;
 if(isset($_SERVER['HTTP_REFERER'])){
     
     $previous_page = $_SERVER['HTTP_REFERER'];
     $from_login = preg_match("/login.php$/", $previous_page);
     $from_products = preg_match("/products.php\?page=[1-9]{1,5}/", $previous_page);
+    $from_edit = preg_match("/editproduct.php\?id=[1-9]{1,5}/", $previous_page);
+    $from_add = preg_match("/addproduct.php/", $previous_page);
 
     $page = 1;
     if($from_login){
@@ -26,7 +35,7 @@ if(isset($_SERVER['HTTP_REFERER'])){
         $productsHeaders = $productsData['headers'];
 
     }
-    else if($from_products) {
+    else if($from_products || $from_add || $from_edit) {
         if(isset($_GET['page'])){
             $page = intval($_GET['page']);
         }
@@ -38,7 +47,8 @@ if(isset($_SERVER['HTTP_REFERER'])){
     }
 }
 else {
-    header("Location: http://localhost/product/secret/login.php");
+    // Remove the product part
+    header("Location: " . $link . "/product/secret/login.php");
     exit;
 }
 

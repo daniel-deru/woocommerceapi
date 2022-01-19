@@ -1,9 +1,3 @@
-<?php
-// $data = file_get_contents('http://localhost/product/secret/woocommerce-api.php');
-// $data = json_decode($data, true);
-
-?>
-
 <?php  
 // Program to display URL of current page.
 if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')
